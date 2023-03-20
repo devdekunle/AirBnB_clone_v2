@@ -140,12 +140,11 @@ class HBNBCommand(cmd.Cmd):
             except:
                 continue
         new_instance = HBNBCommand.classes[cls_name]().to_dict()
-        cls_attr = new_instance.update(cls_attr)
+        new_instance.update(cls_attr)
         obj = HBNBCommand.classes[cls_name](**new_instance)
         storage.new(obj)
         storage.save()
         print(obj.id)
-        storage.save()
 
     def help_create(self):
         """ Help information for the create method """

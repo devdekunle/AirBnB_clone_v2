@@ -28,12 +28,13 @@ class FileStorage:
 
     def delete(self, obj=None):
         """ Deletes an object from the list of objects"""
-        all_objects = self.all()
-        obj_keys = all_objects.keys()
-        obj_del_key = f"{obj.__class__.__name__}.{obj.id}"
-        if obj_del_key in obj_keys:
-            del all_objects[obj_del_key]
-        self.save()
+        if obj is not None:
+            all_objects = self.all()
+            obj_keys = all_objects.keys()
+            obj_del_key = f"{obj.__class__.__name__}.{obj.id}"
+            if obj_del_key in obj_keys:
+                del all_objects[obj_del_key]
+            self.save()
 
     def save(self):
         """Saves storage dictionary to file"""

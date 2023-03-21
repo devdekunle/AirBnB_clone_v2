@@ -5,8 +5,6 @@ from models.engine.file_storage import FileStorage
 from models.state import State
 
 fs = FileStorage()
-fs.all(State)
-
 
 # All States
 all_states = fs.all(State)

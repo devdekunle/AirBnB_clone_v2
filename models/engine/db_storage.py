@@ -21,15 +21,13 @@ db = os.environ.get('HBNB_MYSQL_DB')
 storage_type = os.environ.get('HBNB_TYPE_STORAGE')
 
 
-
 class DBStorage:
     """ Represnts our database """
     __engine = None
     __session = None
-    """classes = {'User': User,
+    classes = {'User': User,
            'Place': Place, 'State': State, 'City': City,
-           'Amenity': Amenity, 'Review': Review}"""
-    classes = {'State': State, 'City': City}
+           'Amenity': Amenity, 'Review': Review}
 
 
     def __init__(self):
@@ -94,14 +92,3 @@ class DBStorage:
                                        expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
-
-
-
-
-
-
-
-
-
-
-

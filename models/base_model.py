@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """This module defines a base class for all models in our hbnb clone"""
+from models import storage
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 import uuid
@@ -12,7 +13,7 @@ Base = declarative_base()
 
 class BaseModel:
     """A base class for all hbnb models"""
-    id: str = Column(String(60) nullable=False, primary_key=True)
+    id: str = Column(String(60), nullable=False, primary_key=True)
     created_at = Column(DateTime, default=datetime.utcnow(), nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow(), nullable=False)
 
@@ -32,7 +33,6 @@ class BaseModel:
             self.__dict__.update(kwargs)
 
 
-
     def __str__(self):
         """Returns a string representation of the instance"""
         cls = (str(type(self)).split('.')[-1]).split('\'')[0]
@@ -40,7 +40,6 @@ class BaseModel:
 
     def save(self):
         """Updates updated_at with current time when instance is changed"""
-        from models import storage
         self.updated_at = datetime.now()
         storage.new(self)
         storage.save()
@@ -50,10 +49,14 @@ class BaseModel:
         dictionary = {}
         dictionary.update(self.__dict__)
         obj_keys = dictionary.keys()
-        if _sa_instance_state in obj_keys:
-            del dictionary
+        if '_sa_instance_state' in obj_keys:
+            del dictionary['_sa_instance_state']
         dictionary.update({'__class__':
                           (str(type(self)).split('.')[-1]).split('\'')[0]})
         dictionary['created_at'] = self.created_at.isoformat()
         dictionary['updated_at'] = self.updated_at.isoformat()
         return dictionary
+
+    def delete(self):
+        """to delete the current instance from the storage"""
+        self.storage.delete(self)

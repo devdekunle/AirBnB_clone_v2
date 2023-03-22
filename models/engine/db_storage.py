@@ -26,9 +26,10 @@ class DBStorage:
     """ Represnts our database """
     __engine = None
     __session = None
-    classes = {'User': User,
+    """classes = {'User': User,
            'Place': Place, 'State': State, 'City': City,
-           'Amenity': Amenity, 'Review': Review}
+           'Amenity': Amenity, 'Review': Review}"""
+    classes = {'State': State, 'City': City}
 
 
     def __init__(self):
@@ -52,12 +53,18 @@ class DBStorage:
 
         if cls is None:
             for cls in DBStorage.classes.values():
-                for obj in self.__session.query(cls).all():
+                for obj in self.__session.query(DBStorage.classes[f"{cls.__name__}"]).all():
                     key = f'{obj.__class__.__name__}.{obj.id}'
+
+                    if hasattr(obj, '_sa_instance_state'):
+                        del obj._sa_instance_state
                     objects[key] = obj
+
         else:
-            for obj in self.__session.query(cls).all():
+            for obj in self.__session.query(DBStorage.classes[f"{cls.__name__}"]).all():
                 key = f'{obj.__class__.__name__}.{obj.id}'
+                if hasattr(obj, '_sa_instance_state'):
+                    del obj._sa_instance_state
                 objects[key] = obj
 
         return objects

@@ -26,7 +26,7 @@ class DBStorage:
     """ Represnts our database """
     __engine = None
     __session = None
-    classes = {'BaseModel': BaseModel, 'User': User,
+    classes = {'User': User,
            'Place': Place, 'State': State, 'City': City,
            'Amenity': Amenity, 'Review': Review}
 
@@ -51,7 +51,7 @@ class DBStorage:
         objects = {}
 
         if cls is None:
-            for cls in HBNB.classes.values():
+            for cls in DBStorage.classes.values():
                 for obj in self.__session.query(cls).all():
                     key = f'{obj.__class__.__name__}.{obj.id}'
                     objects[key] = obj

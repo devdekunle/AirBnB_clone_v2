@@ -22,7 +22,7 @@ class Place(BaseModel, Base):
     amenity_ids = []
 
     if os.environ.get('HBNB_TYPE_STORAGE') == 'db':
-        reviews = relationship('Place', cascade='delete, delete-orphan', backref='place')
+        reviews = relationship('Review', cascade='delete, delete-orphan', backref='place')
     else:
         @property
         def reviews(self):

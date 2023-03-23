@@ -27,7 +27,7 @@ class DBStorage:
     __session = None
     classes = {'User': User,
            'Place': Place, 'State': State, 'City': City,
-           'Amenity': Amenity, 'Review': Review}
+           'Review': Review}
 
 
     def __init__(self):

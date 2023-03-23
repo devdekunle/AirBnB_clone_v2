@@ -9,8 +9,8 @@ from sqlalchemy.orm import relationship
 class Place(BaseModel, Base):
     """ A place to stay """
     __tablename__ = "places"
-    city_id = Column(String(60), nullable=False, ForeignKey=('cities.id'))
-    user_id = Column(String(60), nullable=False, ForeignKey=('users.id'))
+    city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
+    user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
     name = Column(String(128), nullable=False)
     description = Column(String(1024), nullable=False)
     number_rooms = Column(Integer, nullable=False, default=0)
@@ -21,9 +21,8 @@ class Place(BaseModel, Base):
     longitude = Column(Float, nullable=False)
     amenity_ids = []
 
-    if os.environ.get('HBNB_TYPE_STORAGE') = 'db':
-        reviews = relationship('Place', cascade='delete,
-                               delete-orphan', backref='place')
+    if os.environ.get('HBNB_TYPE_STORAGE') == 'db':
+        reviews = relationship('Place', cascade='delete, delete-orphan', backref='place')
     else:
         @property
         def reviews(self):

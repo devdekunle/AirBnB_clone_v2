@@ -1,3 +1,3 @@
--- Create database + drop user
-CREATE DATABASE IF NOT EXISTS hbnb_dev_db;
-DROP USER IF EXISTS hbnb_dev;
+-- Doc
+USE hbnb_dev_db;
+SELECT count(*) FROM states;

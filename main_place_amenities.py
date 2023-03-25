@@ -3,7 +3,7 @@
 """
 from models import *
 
-# creation of a State
+#creation of a State
 state = State(name="California")
 state.save()
 

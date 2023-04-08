@@ -22,7 +22,7 @@ sudo chmod -R 755 /var/www
 sudo sed -i '38i\rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
 
 #message to be served when file requested is not found
-echo "Ceci n'est pas une page\n" | sudo tee /usr/share/nginx/html/custom_404.html
+printf "Ceci n'est pas une page\n" | sudo tee /usr/share/nginx/html/custom_404.html
 
 #configure Nginx server to use error page
 sudo sed -i '40i\error_page 404 /custom_404.html; location = /custom_404.html { root /usr/share/nginx/html; internal;}' /etc/nginx/sites-available/default
@@ -65,7 +65,7 @@ sudo chown -R ubuntu:ubuntu /data/
 
 #update nginx configuration to serve content of /data/web_static/current/ to hbnb_static
 sudo sed -i '74i\location /hbnb_static {alias /data/web_static/current;}' /etc/nginx/sites-available/default
-if [ "$(pgrep -c nginx)" -le 0]; then
+if [ "$(pgrep -c nginx)" -le 0 ]; then
     sudo service nginx start
 else
     sudo service nginx restart

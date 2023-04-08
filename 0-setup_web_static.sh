@@ -2,7 +2,30 @@
 # script thats sets up web servers for deployment of web_static
 
 #install nginx if it is not installed
-sudo apt-get install nginx
+if [[ "$(which nginx | grep -c nginx)" == '0' ]]; then
+    sudo apt-get update -y
+    sudo apt-get install nginx -y
+fi
+
+#firewall setting: allow nginx to serve on port 80
+sudo ufw allow 'Nginx HTTP'
+
+# replace the content of the served page
+echo "Hello World!" | sudo tee /var/www/html/index.html
+
+# grant user ownership of the web files
+
+sudo chown -R "$USER":"$USER" /var/www/html
+sudo chmod -R 755 /var/www
+
+# redirect /redirect_me to youtube video
+sudo sed -i '38i\rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
+
+#message to be served when file requested is not found
+echo "Ceci n'est pas une page\n" | sudo tee /usr/share/nginx/html/custom_404.html
+
+#configure Nginx server to use error page
+sudo sed -i '40i\error_page 404 /custom_404.html; location = /custom_404.html { root /usr/share/nginx/html; internal;}' /etc/nginx/sites-available/default
 
 # create the folder /data/ if it doesnt exist
 FOLDER_DATA=/data/
@@ -41,6 +64,10 @@ fi
 sudo chown -R ubuntu:ubuntu /data/
 
 #update nginx configuration to serve content of /data/web_static/current/ to hbnb_static
-sudo sed -i '74i\location /hbnb_static { alias /data/web_static/current;}' /etc/nginx/sites-available/default
-
+sudo sed -i '74i\location /hbnb_static {alias /data/web_static/current;}' /etc/nginx/sites-available/default
+if [ "$(pgrep -c nginx)" -le 0]; then
+    sudo service nginx start
+else
+    sudo service nginx restart
 sudo service nginx restart
+fi

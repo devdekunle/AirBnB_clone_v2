@@ -13,11 +13,10 @@ env.key_file = '~/.ssh/id_rsa'
 
 
 def do_deploy(archive_path):
-"""
-Deploys the static files to the host servers.
-Args:
-archive_path (str): The path to the archived static files.
-"""
+    """Deploys the static files to the host servers.
+    Args:
+        archive_path (str): The path to the archived static files.
+    """
     if not os.path.exists(archive_path):
         return False
     arch_file = os.path.basename(archive_path)

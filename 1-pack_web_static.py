@@ -7,7 +7,6 @@ from fabric.api import local
 from datetime import datetime
 
 
-
 def do_pack():
     """This function generates a .tgz archive from the contents of the
     web_static folder of AirBnB Clone v2, using the function do_pack.

@@ -9,7 +9,9 @@ from datetime import datetime
 
 
 def do_pack():
-    """Archive the web_static folder using the format described """
+    """This function generates a .tgz archive from the contents of the
+    web_static folder of AirBnB Clone v2, using the function do_pack.
+    """
     if not os.path.isdir("versions"):
         os.mkdir("versions")
     time = datetime.now()

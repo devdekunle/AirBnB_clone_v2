@@ -14,8 +14,15 @@ def do_pack():
     """
     if not os.path.isdir("versions"):
         os.mkdir("versions")
-    time = datetime.now.strftime("%Y%m%d%H%M%S")
-    archived_file = "versions/web_static_{time}.tgz"
+    time = datetime.now()
+    archived_file = "versions/web_static_{}{}{}{}{}{}.tgz".format(
+
+    time.year,
+    time.month,
+    time.day,
+    time.hour,
+    time.minute,
+    time.second)
     try:
         print(f"Packing web_static to {archived_file}")
         local(f"tar -zvcf {archived_file} web_static/")

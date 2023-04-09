@@ -1,7 +1,8 @@
 #!/usr/bin/python3
-"""Write a Fabric script that generates a .tgz archive from the contents
-of the web_static folder of your AirBnB Clone repo,
+"""A Fabric script that generates a .tgz archive from the contents
+of the web_static folder of the AirBnB Clone repo,
 using the function do_pack."""
+
 import os
 from fabric.api import local
 from datetime import datetime
@@ -13,15 +14,8 @@ def do_pack():
     """
     if not os.path.isdir("versions"):
         os.mkdir("versions")
-    time = datetime.now()
-    archived_file = "versions/web_static_{}{}{}{}{}{}.tgz".format(
-        time.year,
-        time.month,
-        time.day,
-        time.hour,
-        time.minute,
-        time.second
-    )
+    time = datetime.now.strftime("%Y%m%d%H%M%S")
+    archived_file = "versions/web_static_{time}.tgz"
     try:
         print(f"Packing web_static to {archived_file}")
         local(f"tar -zvcf {archived_file} web_static/")

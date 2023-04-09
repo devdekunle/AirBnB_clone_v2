@@ -8,36 +8,46 @@ from fabric.api import *
 
 # specify the hosts and run the command across the systems
 env.username = 'ubuntu'
-env.hosts = ['100.24.236.208', '54.146.75.104']
+env.hosts = ['ubuntu@100.24.236.208', 'ubuntu@54.146.75.104']
+env.key_file = '~/.ssh/id_rsa'
 
 def do_deploy(archive_path):
+    """Deploys the static files to the host servers.
+    Args:
+        archive_path (str): The path to the archived static files.
+    """
     if not os.path.exists(archive_path):
         return False
-    file_name = archive_path.split(".")
+    arch_file = os.path.basename(archive_path)
+    file_name = arch_file.replace(".tgz", "")
+    folder = f"/data/web_static/releases/{file_name}/"
+    status = False
 
-    #upload the archive to the /tmp/ directory of web server
-    put(archive_path, "/tmp/")
-    print("Hello")
+    try:
+        #upload the archive to the /tmp/ directory of web server
+        put(archive_path, f"/tmp/{file_name}")
 
-    #create directory to extract archive into
-    run(f"mkdir -p /data/web_static/releases/{file_name[0]}")
+        #create directory to extract archive into
+        run(f"mkdir -p {folder}")
 
-    #uncompress the archive
-    run(f"tar -xzf /tmp/{archive_path} -C /data/web_static/releases/{file_name[0]}/")
+        #uncompress the archive
+        run(f"tar -xzf /tmp/{file_name} -C {folder}")
 
+        #delete the archive from the web server
+        run(f"rm -rf /tmp/{file_name}")
 
-    #delete the archive from the web server
-    run(f"rm -rf /tmp/{archive_path}")
+        #copy all static files to created directory
+        run(f"mv {folder}web_static/* {folder}")
 
-    #copy all static files to created directory
-    run(f"mv /data/web_static/releases/{file_name[0]}/web_static/* /data/web_static/releases/{file_name[0]}/")
+        run(f"rm -rf {folder}web_static")
 
-    run(f"rm -rf /data/web_static/releases/{file_name[0]}/web_static")
+        #delete the symbolic link
+        run("rm -rf /data/web_static/current")
 
-    #delete the symbolic link
-    run("rm -rf /data/web_static/current")
-
-    #create sybmolic link to static files directory
-    run(f"ln -s /data/web_static/releases/{file_name[0]} /data/web_static/current")
-    print("New version deployed")
-    return True
+        #create sybmolic link to static files directory
+        run(f"ln -s {folder} /data/web_static/current")
+        print("New version deployed")
+        status = True
+    except Exception:
+        status = False
+    return status

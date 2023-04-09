@@ -8,6 +8,7 @@ import os
 from fabric.api import local
 from datetime import datetime
 
+
 def do_pack():
     """
     archive the web_static folder

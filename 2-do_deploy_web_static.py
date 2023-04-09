@@ -11,6 +11,7 @@ env.username = 'ubuntu'
 env.hosts = ['ubuntu@100.24.236.208', 'ubuntu@54.146.75.104']
 env.key_file = '~/.ssh/id_rsa'
 
+
 def do_deploy(archive_path):
     """Deploys the static files to the host servers.
     Args:
@@ -24,27 +25,27 @@ def do_deploy(archive_path):
     status = False
 
     try:
-        #upload the archive to the /tmp/ directory of web server
+        # upload the archive to the /tmp/ directory of web server
         put(archive_path, f"/tmp/{file_name}")
 
-        #create directory to extract archive into
+        # create directory to extract archive into
         run(f"mkdir -p {folder}")
 
-        #uncompress the archive
+        # uncompress the archive
         run(f"tar -xzf /tmp/{file_name} -C {folder}")
 
-        #delete the archive from the web server
+        # delete the archive from the web server
         run(f"rm -rf /tmp/{file_name}")
 
-        #copy all static files to created directory
+        # copy all static files to created directory
         run(f"mv {folder}web_static/* {folder}")
 
         run(f"rm -rf {folder}web_static")
 
-        #delete the symbolic link
+        # delete the symbolic link
         run("rm -rf /data/web_static/current")
 
-        #create sybmolic link to static files directory
+        # create sybmolic link to static files directory
         run(f"ln -s {folder} /data/web_static/current")
         print("New version deployed")
         status = True

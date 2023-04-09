@@ -11,7 +11,7 @@ from datetime import datetime
 
 def do_pack():
     """
-    archive the web_static folder
+    archive the web_static folder using the format described
     """
     if not os.path.isdir("versions"):
         os.mkdir("versions")

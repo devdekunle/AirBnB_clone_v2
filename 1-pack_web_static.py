@@ -5,11 +5,11 @@ of the web_static folder of your AirBnB Clone repo,
 using the function do_pack.
 """
 import os
-from fabric.api import local, runs_once
+from fabric.api import local
 from datetime import datetime
 
 
-@runs_once
+
 def do_pack():
     """Archive the web_static folder using the format described """
     if not os.path.isdir("versions"):

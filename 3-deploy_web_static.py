@@ -16,9 +16,9 @@ env.key_file = "~/.ssh/id_rsa"
 
 def deploy():
     """ This function fully deploys the web_static to the web servers"""
-    archive = do_pack()
-    if archive:
-        return do_deploy(archive)
+    archive_file = do_pack()
+    if archive_file:
+        return do_deploy(archive_file)
     else:
         return False
 

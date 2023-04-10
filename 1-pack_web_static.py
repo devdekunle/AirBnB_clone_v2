@@ -16,18 +16,17 @@ def do_pack():
         os.mkdir("versions")
     time = datetime.now()
     archived_file = "versions/web_static_{}{}{}{}{}{}.tgz".format(
-
-    time.year,
-    time.month,
-    time.day,
-    time.hour,
-    time.minute,
-    time.second)
+                time.year,
+                time.month,
+                time.day,
+                time.hour,
+                time.minute,
+                time.second)
     try:
         print("Packing web_static to {}".format(archived_file))
         local("tar -zvcf {} web_static/".format(archived_file))
-        archived_size = os.stat(archived_file).st_size
-        print("web_static packed: {} -> {}Bytes".format(archived_file, archived_size))
+        size = os.stat(archived_file).st_size
+        print("web_static packed: {} -> {}Bytes".format(archived_file, size))
 
     except Exception:
         archived_file = None

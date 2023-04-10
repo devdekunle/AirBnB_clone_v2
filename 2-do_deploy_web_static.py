@@ -21,32 +21,32 @@ def do_deploy(archive_path):
         return False
     arch_file = os.path.basename(archive_path)
     file_name = arch_file.replace(".tgz", "")
-    folder = f"/data/web_static/releases/{file_name}/"
+    folder = "/data/web_static/releases/{}/".format(file_name)
     status = False
 
     try:
         # upload the archive to the /tmp/ directory of web server
-        put(archive_path, f"/tmp/{file_name}")
+        put(archive_path, "/tmp/{}".format(file_name))
 
         # create directory to extract archive into
-        run(f"mkdir -p {folder}")
+        run("mkdir -p {}".format(folder))
 
         # uncompress the archive
-        run(f"tar -xzf /tmp/{file_name} -C {folder}")
+        run("tar -xzf /tmp/{} -C {}".format(file_name, folder))
 
         # delete the archive from the web server
-        run(f"rm -rf /tmp/{file_name}")
+        run("rm -rf /tmp/{}".format(file_name))
 
         # copy all static files to created directory
-        run(f"mv {folder}web_static/* {folder}")
+        run("mv {}web_static/* {}".format(folder, folder))
 
-        run(f"rm -rf {folder}web_static")
+        run("rm -rf {}web_static".format(folder))
 
         # delete the symbolic link
         run("rm -rf /data/web_static/current")
 
         # create sybmolic link to static files directory
-        run(f"ln -s {folder} /data/web_static/current")
+        run("ln -s {} /data/web_static/current".format(folder))
         print("New version deployed")
         status = True
     except Exception:

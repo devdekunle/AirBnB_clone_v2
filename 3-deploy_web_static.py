@@ -14,11 +14,13 @@ env.hosts = ["ubuntu@100.24.236.208", "ubuntu@54.146.75.104"]
 env.user = 'ubuntu'
 env.key_file = "~/.ssh/id_rsa"
 
+
 def deploy():
-    """ This function fully deploys the web_static to the web servers"""
+    """ This function fully deploys the web_static
+    to the web servers
+    """
     archive_file = do_pack()
     if archive_file:
         return do_deploy(archive_file)
     else:
         return False
-

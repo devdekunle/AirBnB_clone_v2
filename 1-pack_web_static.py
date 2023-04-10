@@ -24,10 +24,10 @@ def do_pack():
     time.minute,
     time.second)
     try:
-        print(f"Packing web_static to {archived_file}")
-        local(f"tar -zvcf {archived_file} web_static/")
+        print("Packing web_static to {}".format(archived_file))
+        local(f"tar -zvcf {} web_static/".format(archived_file))
         archived_size = os.stat(archived_file).st_size
-        print(f"web_static packed: {archived_file} -> {archived_size}Bytes")
+        print(f"web_static packed: {} -> {}Bytes".format(archived_file, archived_size))
 
     except Exception:
         archived_file = None

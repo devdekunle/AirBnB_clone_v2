@@ -25,6 +25,7 @@ app.url_map.strict_slashes = False
 def display_c(text):
     return 'C {}'.format(text.replace('_', " "))
 
+
 @app.route('/python/<text>')
 @app.route('/python', defaults={'text': 'is cool'})
 def display_python(text):

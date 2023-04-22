@@ -50,8 +50,8 @@ class DBStorage:
         objects = {}
 
         if cls is None:
-            for cls in DBStorage.classes.values():
-                for obj in self.__session.query(DBStorage.classes[f"{cls.__name__}"]).all():
+            for class_ in DBStorage.classes.values():
+                for obj in self.__session.query(DBStorage.classes[f"{class_.__name__}"]).all():
                     key = f'{obj.__class__.__name__}.{obj.id}'
 
                     if hasattr(obj, '_sa_instance_state'):
@@ -92,3 +92,6 @@ class DBStorage:
                                        expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
+
+    def close(self):
+        self.__session.remove()

@@ -26,9 +26,8 @@ class DBStorage:
     __engine = None
     __session = None
     classes = {'User': User,
-           'Place': Place, 'State': State, 'City': City,
-           'Review': Review, 'Amenity': Amenity}
-
+               'Place': Place, 'State': State, 'City': City,
+               'Review': Review, 'Amenity': Amenity}
 
     def __init__(self):
         """ Initialize new db engine"""
@@ -37,8 +36,9 @@ class DBStorage:
             .format(user, password, host, db),
             pool_pre_ping=True)
 
-        #drop all tables if the environment variable
-        #HBNB_ENV is equal to test
+        """drop all tables if the environment variable
+           HBNB_ENV is equal to test
+        """
         if env == 'test':
             Base.metadata.drop_all(self.__engine)
 
@@ -48,10 +48,10 @@ class DBStorage:
             all objects depending of the class name (argument cls)
         """
         objects = {}
-
         if cls is None:
             for class_ in DBStorage.classes.values():
-                for obj in self.__session.query(DBStorage.classes[f"{class_.__name__}"]).all():
+                modl = f"{class_.__name__}"
+                for obj in self.__session.query(DBStorage.classes[modl]).all():
                     key = f'{obj.__class__.__name__}.{obj.id}'
 
                     if hasattr(obj, '_sa_instance_state'):
@@ -59,7 +59,8 @@ class DBStorage:
                     objects[key] = obj
 
         else:
-            for obj in self.__session.query(DBStorage.classes[f"{cls.__name__}"]).all():
+            model = f"{cls.__name__}"
+            for obj in self.__session.query(DBStorage.classes[model]).all():
                 key = f'{obj.__class__.__name__}.{obj.id}'
                 if hasattr(obj, '_sa_instance_state'):
                     del obj._sa_instance_state

@@ -71,7 +71,6 @@ class FileStorage:
         except FileNotFoundError:
             pass
 
-
     def close(self):
         """ call reload method for deserializing the json file to objects
         """

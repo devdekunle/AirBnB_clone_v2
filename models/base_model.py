@@ -5,6 +5,7 @@ from uuid import uuid4
 from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, DATETIME
+from sqlalchemy.orm import column_property
 import models
 import os
 
@@ -19,6 +20,7 @@ class BaseModel:
     id = Column(String(60), nullable=False, primary_key=True, unique=True)
     created_at = Column(DATETIME, default=datetime.utcnow(), nullable=False)
     updated_at = Column(DATETIME, default=datetime.utcnow(), nullable=False)
+
 
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""

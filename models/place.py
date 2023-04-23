@@ -111,7 +111,7 @@ class Place(BaseModel, Base):
             place_amenity_list = []
             all_amenity = models.storage.all(Amenity).values()
             for obj in all_amenity:
-                if obj.id in Place.amenity_ids:
+                if obj.id in self.amenity_ids:
                     place_amenity_list.append(obj)
             return place_amenity_list
 

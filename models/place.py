@@ -59,7 +59,7 @@ class Place(BaseModel, Base):
     number_bathrooms = Column(
         Integer, nullable=False, default=0
 
-    ) if os.environ.get('HBNB_TYOE_STORAGE') == 'db' else 0
+    ) if os.environ.get('HBNB_TYPE_STORAGE') == 'db' else 0
     max_guest = Column(
         Integer, nullable=False, default=0
 

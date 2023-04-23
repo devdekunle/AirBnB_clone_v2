@@ -53,17 +53,12 @@ class DBStorage:
                 modl = f"{class_.__name__}"
                 for obj in self.__session.query(DBStorage.classes[modl]).all():
                     key = f'{obj.__class__.__name__}.{obj.id}'
-
-                    if hasattr(obj, '_sa_instance_state'):
-                        del obj._sa_instance_state
                     objects[key] = obj
 
         else:
             model = f"{cls.__name__}"
             for obj in self.__session.query(DBStorage.classes[model]).all():
                 key = f'{obj.__class__.__name__}.{obj.id}'
-                if hasattr(obj, '_sa_instance_state'):
-                    del obj._sa_instance_state
                 objects[key] = obj
 
         return objects

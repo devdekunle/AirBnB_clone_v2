@@ -21,25 +21,18 @@ class BaseModel:
     updated_at = Column(DATETIME, default=datetime.utcnow(), nullable=False)
 
     def __init__(self, *args, **kwargs):
-        """Instantiates a new model"""
-        if not kwargs:
-            self.id = str(uuid4())
-            self.created_at = datetime.now()
-            self.updated_at = datetime.now()
-        else:
+        """Instatntiates a new model"""
+
+        time_format = "%Y-%m-%dT%H:%M:%S.%f"
+        self.id = str(uuid4())
+        self.created_at = datetime.now()
+        self.updated_at = datetime.now()
+        if len(kwargs) != 0:
             for key, value in kwargs.items():
-                if key != '__class__':
-                    if key in ('created_at', 'updated_at'):
-                        setattr(self, key, datetime.fromisoformat(value))
-                    else:
-                        setattr(self, key, value)
-            # if os.getenv('HBNB_TYPE_STORAGE') in ('db'):
-            if not hasattr(kwargs, 'id'):
-                setattr(self, 'id', str(uuid4()))
-            if not hasattr(kwargs, 'created_at'):
-                setattr(self, 'created_at', datetime.now())
-            if not hasattr(kwargs, 'updated_at'):
-                setattr(self, 'updated_at', datetime.now())
+                if key == "updated_at" or key == "created_at":
+                    self.__dict__[key] = datetime.strptime(value, time_format)
+                else:
+                    self.__dict__[key] = value
 
     def __str__(self):
         """Returns a string representation of the instance"""

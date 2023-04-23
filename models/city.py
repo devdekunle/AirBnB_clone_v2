@@ -22,3 +22,6 @@ class City(BaseModel, Base):
         cascade='all, delete, delete-orphan', backref='cities'
 
     ) if os.environ.get('HBNB_TYPE_STORAGE') == 'db' else None
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)

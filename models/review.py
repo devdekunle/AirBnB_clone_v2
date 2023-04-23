@@ -17,3 +17,6 @@ class Review(BaseModel, Base):
     text = Column(
         String(1024), nullable=False
     ) if os.environ.get('HBNB_TYPE_STORAGE') == 'db' else ''
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)

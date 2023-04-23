@@ -30,7 +30,7 @@ if os.environ.get('HBNB_TYPE_STORAGE') == 'db':
             nullable=False
 
         )
-)
+    )
 
 
 class Place(BaseModel, Base):

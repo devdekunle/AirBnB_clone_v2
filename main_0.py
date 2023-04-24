@@ -32,7 +32,7 @@ def wrapper_all_type(m_class):
         except:
             res = {}
     return res
-        
+
 
 print(len(wrapper_all_type(State)))
 

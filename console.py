@@ -130,12 +130,12 @@ class HBNBCommand(cmd.Cmd):
             try:
                 key, value = attr.split('=')
                 if value.startswith('"') and value.endswith('"'):
-                    value: str = value[1:-1].replace('_', ' ').replace('\\"', '"')
+                    value = value[1:-1].replace('_', ' ').replace('\\"', '"')
 
                 elif '.' in value:
-                    value: float = float(value)
+                    value = float(value)
                 else:
-                    value: int = int(value)
+                    value = int(value)
                 cls_attr[key] = value
             except:
                 continue

@@ -50,15 +50,15 @@ class DBStorage:
         objects = {}
         if cls is None:
             for class_ in DBStorage.classes.values():
-                modl = f"{class_.__name__}"
+                modl = "{}".format(class_.__name__)
                 for obj in self.__session.query(DBStorage.classes[modl]).all():
-                    key = f'{obj.__class__.__name__}.{obj.id}'
+                    key = '{}.{}'.format(obj.__class__.__name__, obj.id)
                     objects[key] = obj
 
         else:
-            model = f"{cls.__name__}"
+            model = "{}".format(cls.__name__)
             for obj in self.__session.query(DBStorage.classes[model]).all():
-                key = f'{obj.__class__.__name__}.{obj.id}'
+                key = '{}.{}'.format(obj.__class__.__name__, obj.id)
                 objects[key] = obj
 
         return objects

@@ -18,20 +18,20 @@ class FileStorage:
             new_dict = {}
             all_objects = FileStorage.__objects
             for key, value in all_objects.items():
-                if value.__class__.__name__ == f"{cls.__name__}":
+                if value.__class__.__name__ == "{}".format(cls.__name__):
                     new_dict[key] = value
             return new_dict
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
-        FileStorage.__objects[f"{obj.__class__.__name__}.{obj.id}"] = obj
+        FileStorage.__objects["{}.{}".format(obj.__class__.__name__, obj.id)] = obj
 
     def delete(self, obj=None):
         """ Deletes an object from the list of objects"""
         if obj is not None:
             all_objects = self.all()
             obj_keys = all_objects.keys()
-            obj_del_key = f"{obj.__class__.__name__}.{obj.id}"
+            obj_del_key = "{}.{}".format(obj.__class__.__name__, obj.id)
             if obj_del_key in obj_keys:
                 del all_objects[obj_del_key]
             self.save()

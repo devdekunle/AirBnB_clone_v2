@@ -32,12 +32,14 @@ from models.state import State
 
 
 app = Flask(__name__)
-app.url_map.strict_slashes=False
+app.url_map.strict_slashes = False
 states = storage.all(State)
+
 
 @app.teardown_appcontext
 def tear_down(exc):
     storage.close()
+
 
 @app.route('/states_list')
 def states_list():
